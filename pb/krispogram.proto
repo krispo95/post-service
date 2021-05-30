@@ -1,0 +1,34 @@
+syntax = "proto3";
+package pb;
+option go_package = "pb";
+
+message Post {
+    uint64 id = 1;
+    uint64 author_id = 2;
+    string topic = 3;
+    string body = 4;
+}
+
+message NewPost {
+    uint64 author_id = 1;
+    string topic = 2;
+    string body = 3;
+}
+
+message GetPostByIdReq {
+    uint64 id = 1;
+}
+
+message GetPostsByAuthorIdReq {
+    uint64 author_id = 1;
+}
+
+message GetPostsByAuthorIdResp {
+    repeated Post posts = 1;
+}
+
+service PostService {
+    rpc Create(NewPost) returns (Post);
+    rpc GetById(GetPostByIdReq) returns (Post);
+    rpc GetByAuthorId(GetPostsByAuthorIdReq) returns (GetPostsByAuthorIdResp);
+}

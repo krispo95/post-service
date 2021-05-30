@@ -1,0 +1,1 @@
+docker run --rm   -v $(pwd):$(pwd) -w $(pwd)   protocompiler   --gogofaster_out=plugins=grpc:.     --govalidators_out=gogoimport=true:.    -I. ./pb/*.proto
