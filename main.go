@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"google.golang.org/grpc"
+	"krispogram-grpc/infrastructure/db"
 	"krispogram-grpc/pb"
 	"krispogram-grpc/webservice"
 	"log"
@@ -20,10 +21,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	s := webservice.Server{}
+	s := webservice.NewServer(db.NewDbInteractor("mongodb://localhost:27017"))
 
 	grpcServer := grpc.NewServer()
-	pb.RegisterPostServiceServer(grpcServer, &s)
+	pb.RegisterPostServiceServer(grpcServer, s)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
